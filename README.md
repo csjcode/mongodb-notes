@@ -6,9 +6,14 @@
 ## Aside on Mocha testing pattern:  
 
 **describe** (the general category name with many it-blocks)  
--> [optional: before, beforeEach]  
---> **it** (a specific test block)  
----> **assertion** (the code being tested)  
+
+--> [optional: before, beforeEach]  
+    `beforeEach((done) => {`
+
+----> **it** (a specific test block)  
+      `it('model instance remove', (done) => { });`
+
+------> **assertion** (the code being tested)  
 
 example:
 ```javascript
@@ -429,6 +434,30 @@ it('find a user with a particular id', (done) => {
 ----------------------------------
 
 ### 32. The Many Ways to Remove Records 9:54 - delete_test.js
+
+* Start out with boilerplate similar to reading_test.js to create a user
+* There are at least 4 ways to remove a user:
+* MODEL INSTANCE:
+1. remove `instance.remove()`
+
+* MODEL CLASS:
+1. remove
+1. findOneAndRemove
+1. findByIdAndRemove
+
+* Now add a `remove()` function
+```javascript
+it('model instance remove', (done) => {
+  joe.remove()
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user === null);
+      done();
+    });
+});
+```
+
+
 
 
 ----------------------------------
