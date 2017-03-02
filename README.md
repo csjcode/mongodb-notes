@@ -1,6 +1,34 @@
-# mongodb-notes
+# Mongodb Class notes
 
-* Class notes
+* source class: https://www.udemy.com/the-complete-developers-guide-to-mongodb/learn/v4/t/lecture
+
+
+## Aside on Mocha testing pattern:  
+
+**describe** (the general category name with many it-blocks)
+--> **it** (a specific test block)
+---> **assertion** (the code being tested)
+
+example:
+```javascript
+describe('Creating records', () => {
+  it('saves a user', () => {
+    assert(1+1 === 3)
+  });
+});
+```
+
+* Edit the package.json file
+
+```javascript
+"scripts": {
+  "test": "mocha"
+},
+```
+
+
+* `> npm run test`
+
 
 ----------------------------------
 
@@ -101,11 +129,34 @@ module.exports = User;
 * Make new file create_test.js
 * Mocha uses the terms "Describe" and "It"
 
-Mocha pattern:  
+----------------------------------
 
-describe
- --> it
-   --> assertion
+# Mocha pattern:  
+
+**describe** (the general category name with many it-blocks)
+--> **it** (a specific test block)
+---> **assertion** (the code being tested)
+
+example:
+```javascript
+describe('Creating records', () => {
+  it('saves a user', () => {
+    assert(1+1 === 3)
+  });
+});
+```
+
+* Edit the package.json file
+
+```javascript
+"scripts": {
+  "test": "mocha"
+},
+```
+
+
+* `> npm run test`
+
 
 ----------------------------------
 
@@ -118,7 +169,6 @@ const User = require('../src/user');
 
 describe('Creating records', () => {
   it('saves a user', () => {
-    // const joe = new User({ name: 'Joe' });
     assert(1+1 === 3)
   });
 });
@@ -142,3 +192,175 @@ describe('Creating records', () => {
 ----------------------------------
 
 ### 21. Creating Model Instances
+
+
+```javascript
+const assert = require('assert');
+const User = require('../src/user');
+
+describe('Creating records', () => {
+  it('saves a user', () => {
+    const joe = new User({ name: 'Joe' });
+
+  });
+});
+```
+
+* HOWEVER, this does not save joe to database.
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+Here is how we save joe to the database.
+`joe.save()`
+
+So full code:
+
+```javascript
+const assert = require('assert');
+const User = require('../src/user');
+
+describe('Creating records', () => {
+  it('saves a user', () => {
+    const joe = new User({ name: 'Joe' });
+    joe.save()
+  });
+});
+```
+
+Two items to be aware of:
+
+1. This does not have assert, so there is no assertion being tested.
+1. This will save to the db multiple times
+
+----------------------------------
+
+### 23. Dropping Collections 4:48
+
+* We need to empty out the DB each time we start the tests
+* We use a "hook" to define emptying the collection whenever we tests
+* In test_helper.js:
+
+```javascript
+beforeEach(() => {
+  mongoose.connection.collections.users.drop();
+});
+
+```
+
+* However, if we have many users this could be a problem because we need to tell Mocha to pause until it is completely empty.
+*
+
+----------------------------------
+
+### 24. Mocha's Done Callback 4:56
+
+
+----------------------------------
+
+### 25. Mongoose's isNew Property 6:25
+
+
+----------------------------------
+
+### 26. Default Promise Implementation 6:45
+
+
+----------------------------------
+
+### 27. Test Setup for Finding Users 6:38
+
+
+----------------------------------
+
+### 28. Making Mongo Queries 6:00
+
+
+----------------------------------
+
+### 29. The ID Property - A Big Gotcha 6:24
+
+
+----------------------------------
+
+### 30. Automating Tests with Nodemon 4:57
+
+
+----------------------------------
+
+### 31. Finding Particular Records 5:04
+
+
+----------------------------------
+
+### 32. The Many Ways to Remove Records 9:54
+
+
+----------------------------------
+
+### 33. Class Based Removes 5:10
+
+
+----------------------------------
+
+### 34. More Class Based Removals 5:46
+
+
+----------------------------------
+
+### 35. The Many Ways to Update Records 3:59
+
+----------------------------------
+
+### 36. Set and Save for Updating Records 8:20
+
+----------------------------------
+
+### 37. Model Instance Updates 7:38
+
+----------------------------------
+
+### 38. Class Based Updates 8:50
+
+
+
+
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+----------------------------------
+
+###  22. Saving Users to Mongo
+
+----------------------------------
+
+###  22. Saving Users to Mongo
