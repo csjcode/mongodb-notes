@@ -269,21 +269,74 @@ beforeEach((done) => {
 
 ```
 
-
 ----------------------------------
 
 ### 25. Mongoose's isNew Property 6:25
 
+* We now need to make an actual assertion to make sure joe is getting saved.
+* We can set this up as a promise.
+* Mongoose has a built-in property called isNew===true, a flag which be on the model if it is not in Mongo yet
+* Once the model is saved in Mongo, it will be flipped to isNew===false.
+* Assert inside a promise `assert(!joe.isNew);`
+
+```javascript
+describe('Creating records', () => {
+  it('saves a user', (done) => {
+    const joe = new User({ name: 'Joe' });
+    joe.save()
+      .then(() => {
+        assert(!joe.isNew);
+        done();
+      });
+  });
+});
+```
+
+`npm run test` - success
+
+If we change it to `assert(joe.isNew);` then we shoudl see the test fail
+
+`npm run test` - fail
 
 ----------------------------------
 
 ### 26. Default Promise Implementation 6:45
 
+* All we have to do is add to top of test_helper:
+`mongoose.Promise = global.Promise;`
+* Remove good to go msg
+
+ERROR NOTE
+* Got an error msg DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead:
+* RESOLUTION: This has something to do with a new version of Mongoose.
+* It can be resolved by adding to user.js, not just the helper file `mongoose.Promise = global.Promise;`
+
+* Also we want to wrap our connect statement in a before call (not beforeEach), because it;s used one time, not each time.
+
+```javascript
+before((done) => {
+  mongoose.connect('mongodb://localhost/users_test');
+```
 
 ----------------------------------
 
 ### 27. Test Setup for Finding Users 6:38
 
+* We are now going to query users.
+* Right now we can query by name or _id
+* In reading_test.js, make a block similar to the create_test... HOWEVER,
+* For scope, since we have 2 function blocks, declare `let joe;` inside the main block and outside the 2 it-blocks
+* And add:
+
+```javascript
+it('finds all users with a name of joe', (done) => {
+  User.find({ name: 'Joe' })
+    .then((users) => {
+      console.log(users);
+      done();
+    });
+});
+```
 
 ----------------------------------
 
@@ -337,43 +390,134 @@ beforeEach((done) => {
 ### 38. Class Based Updates 8:50
 
 
+----------------------------------
+
+## Mongo Operators
+
+
+----------------------------------
+
+### 39. Update Operators 11:15
+
+----------------------------------
+
+### 40. The Increment Update Operator 6:17
+
+----------------------------------
+
+### 41. Validation of Records 5:03
+
+----------------------------------
+
+### 42. Requiring Attributes on a Model 11:15
+
+----------------------------------
+
+### 43. Validation With a Validator Function 6:40
+
+----------------------------------
+
+### 44. Handling Failed Inserts 4:19
 
 
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
+
+## Handling Relational Data
 
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
-
-
-----------------------------------
-
-###  22. Saving Users to Mongo
+### 45. Embedding Resources in Models 5:17
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
+### 46. Nesting Posts on Users 5:40
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
+### 47. Testing Subdocuments 7:29
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
+### 48. Adding Subdocuments to Existing Records 11:27
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
+### 49. Removing Subdocuments 7:46
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
+### 50. Virtual Types 7:59
 
 ----------------------------------
 
-###  22. Saving Users to Mongo
+### 51. Defining a Virtual Type 6:19
+
+----------------------------------
+
+### 52. ES6 Getters 8:16
+
+----------------------------------
+
+### 53. Fixing Update Tests
+
+----------------------------------
+
+## Thinking About Schema Design
+
+----------------------------------
+
+### 54. Challenges of Nested Resources 5:27
+
+----------------------------------
+
+### 55. Embedded Documents vs Separate Collections 7:55
+
+----------------------------------
+
+### 56. BlogPosts vs Posts 3:26
+
+----------------------------------
+
+### 57. Creating Associations with Refs 8:53
+
+----------------------------------
+
+### 58. Test Setup for Associations 5:12
+
+----------------------------------
+
+### 59. Wiring Up Has Many and Has One Relations 8:40
+
+----------------------------------
+
+### 60. Promise.All for Parallel Operations 6:44
+
+----------------------------------
+
+### 61. Populating Queries 11:06
+
+----------------------------------
+
+### 62. Loading Deeply Nested Associations 12:12
+
+
+## Mongoose Middleware
+
+----------------------------------
+
+### 63. Cleaning Up with Middleware 4:42
+
+----------------------------------
+
+### 64. Dealing with Cyclic Requires 5:07
+
+----------------------------------
+
+### 65. Pre-Remove Middleware 5:58
+
+----------------------------------
+
+### 66. Testing Pre-Remove Middleware 5:46
