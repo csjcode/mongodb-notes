@@ -1,7 +1,7 @@
 # Mongodb Class notes
 
 * source class: https://www.udemy.com/the-complete-developers-guide-to-mongodb/learn/v4/t/lecture
-
+* extra code: https://github.com/StephenGrider/MongoCasts/
 
 ## Aside on Mocha testing pattern:  
 
@@ -255,6 +255,19 @@ beforeEach(() => {
 ----------------------------------
 
 ### 24. Mocha's Done Callback 4:56
+
+* We need a "done" callback that tells us when emptying the DB is done.
+* see 24-Done-Callback
+* Every line of code sent through Mocha get a "done" callback
+* You can add it as an argument to the function being called.
+```javascript
+beforeEach((done) => {
+  mongoose.connection.collections.users.drop(() => {
+    done();
+  });
+});
+
+```
 
 
 ----------------------------------
