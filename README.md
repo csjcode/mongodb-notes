@@ -5,9 +5,10 @@
 
 ## Aside on Mocha testing pattern:  
 
-**describe** (the general category name with many it-blocks)
---> **it** (a specific test block)
----> **assertion** (the code being tested)
+**describe** (the general category name with many it-blocks)  
+-> [optional: before, beforeEach]  
+--> **it** (a specific test block)  
+---> **assertion** (the code being tested)  
 
 example:
 ```javascript
@@ -26,8 +27,9 @@ describe('Creating records', () => {
 },
 ```
 
-
 * `> npm run test`
+
+* This will run all scripts in the test/ directory.
 
 
 ----------------------------------
@@ -320,7 +322,7 @@ before((done) => {
 
 ----------------------------------
 
-### 27. Test Setup for Finding Users 6:38
+### 27. Test Setup for Finding Users 6:38 - reading_test.js
 
 * We are now going to query users.
 * Right now we can query by name or _id
@@ -340,27 +342,93 @@ it('finds all users with a name of joe', (done) => {
 
 ----------------------------------
 
-### 28. Making Mongo Queries 6:00
+### 28. Making Mongo Queries 6:00 - reading_test.js
+
+* We still have to add an assert command to find all users with the name joe
+* There are two main query methods we'll use with Mongoose
+1. **Model.find** - we use when we want to find all of the users that match a criteria (Array)
+1. **Model.findOne** - we use when we only want 1 user
+* Model represent our class as described in our Schema and Schma constant variable.
+* Start with the `console.log(users);`
+* `npm run test`
+```
+  Creating records
+    √ saves a user (43ms)
+
+  Reading users out of the database
+[ { _id: 58b7efd8847d4b0964bdb3e9, name: 'Joe', __v: 0 } ]
+    √ finds all users with a name of joe
+
+
+  2 passing (163ms)
+```
+
+* Replace the console.log(users) with `assert(users[0]._id.toString() === joe._id.toString());`
+
+```
+Creating records
+  √ saves a user (50ms)
+
+Reading users out of the database
+  √ finds all users with a name of joe
+
+
+2 passing (144ms)
+```
+
+----------------------------------
+
+### 29. The ID Property - A Big Gotcha 6:24 - reading_test.js
+
+* We found all users in our datase with the name of joe
+* How do we get the unique id?
+* Mongoose automatically assigned an ID, even if it is not saved yet.
+* This will fail: `assert(users[0]._id === joe._id);`
+* Why does this fail?
+* We console log out `users[0]._id` and `joe._id`
+* SAME!, but there is a Gotcha
+* The id is wrapped in an object - so when comparing, it sees two diferent objects
+* So that's why we need toString
+* `assert(users[0]._id.toString() === joe._id.toString())`
+
+----------------------------------
+
+### 30. Automating Tests with Nodemon 4:57 - reading_test.js
+
+* nodemon will watch our file for changes and run all tests automatically
+* we don't use --watch because sometimes there are conflicts with mongoose
+* In package.json we are going to replace test:"mocha" with
+```javascript
+"scripts": {
+  "test": "nodemon --exec \"mocha -R min\""
+},
+```
+* GOTCHA: single-quotes `'mocha -R min'` was originally suggested but not working in Windows.
 
 
 ----------------------------------
 
-### 29. The ID Property - A Big Gotcha 6:24
+### 31. Finding Particular Records 5:04 - reading_test.js
 
+* Now we need to find a user with a particular id
+
+Code:
+```javascript
+it('find a user with a particular id', (done) => {
+  User.findOne({ _id: joe._id })
+    .then((user) => {
+      assert(user.name === 'Joe');
+      done();
+    });
+});
+```
+* We do not have to use toString because we are comparing with Mongoose, which can handle that -- not liek the previous vanilla Javascript comparison
+* Assert will be set up to vrify the user id is joe.
+* `npm run test` - 3 passing test
 
 ----------------------------------
 
-### 30. Automating Tests with Nodemon 4:57
-
-
-----------------------------------
-
-### 31. Finding Particular Records 5:04
-
-
-----------------------------------
-
-### 32. The Many Ways to Remove Records 9:54
+### 32. The Many Ways to Remove Records 9:54 - delete_test.js
 
 
 ----------------------------------
