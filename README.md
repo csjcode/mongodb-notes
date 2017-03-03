@@ -459,11 +459,52 @@ it('model instance remove', (done) => {
 
 
 
-
 ----------------------------------
 
 ### 33. Class Based Removes 5:10
 
+In delete_test.js -  These are the remaining class removes:
+
+
+```javascript
+
+it('class method remove', (done) => {
+  // Remove a bunch of records with some given criteria
+  User.remove({ name: 'Joe' })
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user === null);
+      done();
+    });
+});
+
+it('class method findOneAndRemove', (done) => {
+  User.findOneAndRemove({ name: 'Joe' })
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user === null);
+      done();
+    });
+});
+
+it('class method findByIdAndRemove', (done) => {
+  User.findByIdAndRemove(joe._id)
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user === null);
+      done();
+    });
+});
+
+```
+
+* NOTE: Notice that the promise part is the same for each of these. It can be copy-pasted.
+
+```
+[nodemon] starting `mocha -R min`
+
+  7 passing (228ms)
+```
 
 ----------------------------------
 
