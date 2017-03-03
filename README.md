@@ -510,10 +510,35 @@ it('class method findByIdAndRemove', (done) => {
 
 ### 34. More Class Based Removals 5:46
 
-
 ----------------------------------
 
 ### 35. The Many Ways to Update Records 3:59
+
+* Create new update_test.js
+
+```javascript
+describe('Updating records', () => {
+  let joe;
+
+  beforeEach((done) => {
+    joe = new User({ name: 'Joe' });
+    joe.save()
+      .then(() => done());
+  });
+
+  it('instance type using set n save', (done) => {
+    joe.set('name', 'Alex');
+    joe.save()
+      .then(() => User.find({}))
+      .then((users) => {
+        assert(users.length === 1);
+        assert(users[0].name === 'Alex');
+        done();
+      });
+  });
+});
+
+```
 
 ----------------------------------
 
