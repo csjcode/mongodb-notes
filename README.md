@@ -673,6 +673,32 @@ it('A user can have their postcount incremented by 1', () => {
 
 ### 40. The Increment Update Operator 6:17
 
+* Using the $inc operator
+* btw, if you want to decrement, you just use -1
+
+```javascript
+User.update({ name: 'Joe' }, { $inc: { postCount: 1 } })
+```
+
+* We are not using assertName function because we are looking at the postCount, not the name.
+
+
+```javascript
+
+it('A user can have their postcount incremented by 1', (done) => {
+  User.update({ name: 'Joe' }, { $inc: { postCount: 1 } })
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user.postCount === 10);
+      done();
+    });
+});
+
+```
+
+`13 passing (335ms)`
+
+
 ----------------------------------
 
 ### 41. Validation of Records 5:03
