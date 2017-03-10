@@ -703,9 +703,27 @@ it('A user can have their postcount incremented by 1', (done) => {
 
 ### 41. Validation of Records 5:03
 
+* Mongoose is an interface wrapper for Mongo
+* Mongoose has some advanced special features
+* Validation (like typechecking) is useful in Mongoose.
+* We want to make sure users do not submit junk data, profanity etc.
+* This validation is solely implemented by Mongoose, not in Mongo
+* Create file: /test/validation_test.js
+
+```javascript
+describe('Validating records', () => {
+  it('requires a user name', () => {
+
+  });
+});
+```
 ----------------------------------
 
 ### 42. Requiring Attributes on a Model 11:15
+
+
+* 
+
 
 ----------------------------------
 
