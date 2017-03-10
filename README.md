@@ -609,6 +609,38 @@ function assertName(operation, done) {
 
 ### 38. Class Based Updates 8:50
 
+* We're now doing class-based updates - similar to previous.
+* With class it is like we are adding in a selector, then updating the instance.
+
+```javascript
+it('A model instance can update', (done) => {
+  assertName(joe.update({ name: 'Alex' }), done);
+});
+
+it('A model class can update', (done) => {
+  assertName(
+    User.update({ name: 'Joe' }, { name: 'Alex' }),
+    done
+  );
+});
+
+it('A model class can update one record', (done) => {
+  assertName(
+    User.findOneAndUpdate({ name: 'Joe' }, { name: 'Alex' }),
+    done
+  );
+});
+
+it('A model class can find a record with an Id and update', (done) => {
+  assertName(
+    User.findByIdAndUpdate(joe._id, { name: 'Alex' }),
+    done
+  );
+})
+```
+
+`12 passing (394ms)`
+
 
 ----------------------------------
 
