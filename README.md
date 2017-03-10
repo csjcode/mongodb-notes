@@ -574,7 +574,18 @@ new: { __v: 0, name: 'Alex', _id: 58bb7544c96f9d0b0459bc74 }
 
 * Use **SAVE** to persist the changes in the database
 
-* Uncomment `assertName(joe.save(), done);` (as above)
+
+
+`8 passing (215ms)`
+
+----------------------------------
+
+### 37. Model Instance Updates 7:38
+
+* In this case we are working on a "model instance" (joe, instead of the full class User)
+* For update we pass in a new object with the new properties we want.
+* `joe.update({ name: 'Alex' })`
+
 
 * `assertName` is a function we include above on the script:
 
@@ -590,14 +601,9 @@ function assertName(operation, done) {
 }
 ```
 
+`9 passing (215ms)`
 
-
-
-----------------------------------
-
-### 37. Model Instance Updates 7:38
-
-
+* For now on we'll be using the assertName function
 
 ----------------------------------
 
