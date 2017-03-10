@@ -721,8 +721,37 @@ describe('Validating records', () => {
 
 ### 42. Requiring Attributes on a Model 11:15
 
+* We're writing 2 separate tests
+* (1) Require a user name.
+* (2) That it is at least 2 characters long
+* Add a new rule in our Schema in user.js
 
-* 
+```javascript
+name: {
+  type: String,
+  required: [true, 'Name is required.']
+},
+```
+* Now we want to test with undefined in the validation_test.js file
+
+`const user = new User({ name: undefined });`
+
+* Next we call this function which returns an object ValidationResult
+
+`const validationResult = user.validateSync();`
+
+* validateSync is a synchronous validation process
+
+* check console.log to see error message
+`console.log(validationResult); // shows: message: 'Name is required.'`
+
+* Wrap this up with an assert:
+
+```javascript
+const { message } = validationResult.errors.name;
+assert(message === 'Name is required.');
+```
+
 
 
 ----------------------------------
