@@ -644,12 +644,30 @@ it('A model class can find a record with an Id and update', (done) => {
 
 ----------------------------------
 
-## Mongo Operators
-
-
-----------------------------------
-
 ### 39. Update Operators 11:15
+
+* We're going to look at some more complex use cases.
+* New postCount property added to Schema
+* see 39-postCount-New-Property-in-Schema.png
+
+In user.js:
+```javascript
+const UserSchema = new Schema({
+  name: String,
+  postCount: Number
+});
+```
+
+* Lets try a new test to increment postCount by one
+* We can increment with the $inc operator
+* https://docs.mongodb.com/manual/reference/operator/update/
+
+```javascript
+it('A user can have their postcount incremented by 1', () => {
+  User.update({ name: 'Joe' }, { postCount: 1 });
+});
+```
+
 
 ----------------------------------
 
