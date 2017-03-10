@@ -500,6 +500,8 @@ it('class method findByIdAndRemove', (done) => {
 
 * NOTE: Notice that the promise part is the same for each of these. It can be copy-pasted.
 
+* `npm run test`
+
 ```
 [nodemon] starting `mocha -R min`
 
@@ -544,9 +546,58 @@ describe('Updating records', () => {
 
 ### 36. Set and Save for Updating Records 8:20
 
+
+* see 36-Update-models
+* Set first code block
+
+```javascript
+it('instance type using set n save', (done) => {
+  console.log(`original: ${joe}`);
+  joe.set('name', 'Alex');
+  // assertName(joe.save(), done);
+  console.log(`new: ${joe}`);
+});
+```
+
+* Added console logs before, after "set" - `npm run test`
+
+```
+[nodemon] starting `mocha -R min`
+  original: { __v: 0, name: 'Joe', _id: 58bb7544c96f9d0b0459bc74 }
+new: { __v: 0, name: 'Alex', _id: 58bb7544c96f9d0b0459bc74 }
+
+```
+
+* **IMPORTANT: SET** only changes what si in memory for the model, not what is in the database.
+
+* For EXAMPLE: you may want to set up multiple sets, and then at the end do one save.
+
+* Use **SAVE** to persist the changes in the database
+
+* Uncomment `assertName(joe.save(), done);` (as above)
+
+* `assertName` is a function we include above on the script:
+
+```javascript
+function assertName(operation, done) {
+  operation
+    .then(() => User.find({}))
+    .then((users) => {
+      assert(users.length === 1);
+      assert(users[0].name === 'Alex');
+      done();
+    });
+}
+```
+
+
+
+
 ----------------------------------
 
 ### 37. Model Instance Updates 7:38
+
+
 
 ----------------------------------
 
