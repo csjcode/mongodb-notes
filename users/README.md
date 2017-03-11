@@ -932,7 +932,7 @@ it('Can add subdocuments to an existing record', (done) => {
 });
 ```
 
-IMPORTANT NOTE:
+IMPORTANT NOTE on promises and chaining:
 
 this ES6 (above):
 `.then(() => User.findOne({ name: 'Joe' }))`
@@ -942,11 +942,34 @@ is equivalent to t es5
 
 That's why above we use  `return user.save();` and can contiune to chain on the promise.
 
-
-
 ----------------------------------
 
 ### 49. Removing Subdocuments 7:46
+
+* In this case we don't need to remove with slice, we can directly call user.posts[0] and remove it
+* IMPORTANT, must REMOVE and SAVE: When we do a remove() we need to also save()
+
+```javascript
+it('can remove an existing subdocument', (done) => {
+  const joe = new User({
+    name: 'Joe',
+    posts: [{ title: 'New Title' }]
+  });
+
+  joe.save()
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      const post = user.posts[0];
+      post.remove();
+      return user.save();
+    })
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user.posts.length === 0);
+      done();
+    });
+});
+```
 
 ----------------------------------
 
