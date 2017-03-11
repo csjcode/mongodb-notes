@@ -52,6 +52,11 @@ describe('Creating records', () => {
 * Create, Read, Update, Destroy
 * `> mkdir users`
 
+
+----------------------------------
+
+## TTD - Testing
+
 ----------------------------------
 
 ### 14 - Project Overview
@@ -644,6 +649,10 @@ it('A model class can find a record with an Id and update', (done) => {
 
 ----------------------------------
 
+## Mongo Operators
+
+----------------------------------
+
 ### 39. Update Operators 11:15
 
 * We're going to look at some more complex use cases.
@@ -792,6 +801,27 @@ it('requires a user\'s name longer than 2 characters', () => {
 ----------------------------------
 
 ### 44. Handling Failed Inserts 4:19
+
+* In a real application, we'll rely on the validation to prevent saving to database.
+* Disallow records ffrom being inserted (not just an error msg)
+* We'll add a catch to make sure IF an error message comes up   
+
+```javascript
+it('disallows invalid records from being saved', (done) => {
+  const user = new User({ name: 'Al' });
+  user.save()
+    .catch((validationResult) => {
+      const { message } = validationResult.errors.name;
+
+      assert(message === 'Name must be longer than 2 characters.');
+      done();
+    });
+});
+```
+
+Rest on `npm run test`:
+
+`16 passing (317ms)`
 
 
 
