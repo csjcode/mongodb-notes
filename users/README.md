@@ -876,9 +876,73 @@ and under postCount a new property, which we can connect to PostSchema:
 
 ### 47. Testing Subdocuments 7:29
 
+* Create new file called subdocument_test.js
+* First setup a new user
+
+```javascript
+const joe = new User({
+  name: 'Joe',
+  posts: [{ title: 'PostTitle' }]
+});
+```
+
+* Save and then check post title:
+
+```javascript
+joe.save()
+  .then(() => User.findOne({ name: 'Joe' }))
+  .then((user) => {
+    assert(user.posts[0].title === 'PostTitle');
+    done();
+  });
+```
+
+Result:
+
+`17 passing (351ms)`
+
 ----------------------------------
 
 ### 48. Adding Subdocuments to Existing Records 11:27
+
+* Why should we use the subdocument if we can just add properties to a user?
+* This makes it easier/cleaner to add subdocuments.
+* see: 48-Adding-Subdocument-order.jpg
+* to add subdocuments we have to add the subdocument, then call save on the model
+
+
+```javascript
+it('Can add subdocuments to an existing record', (done) => {
+  const joe = new User({
+    name: 'Joe',
+    posts: []
+  });
+
+  joe.save()
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      user.posts.push({ title: 'New Post' });
+      return user.save();
+    })
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user.posts[0].title === 'New Post');
+      done();
+    });
+});
+```
+
+IMPORTANT NOTE:
+
+this ES6 (above):
+`.then(() => User.findOne({ name: 'Joe' }))`
+
+is equivalent to t es5
+`.then(() => return { User.findOne({ name: 'Joe' }) } )`
+
+That's why above we use  `return user.save();` and can contiune to chain on the promise.
+
+
 
 ----------------------------------
 
