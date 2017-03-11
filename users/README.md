@@ -835,9 +835,42 @@ Rest on `npm run test`:
 
 ### 45. Embedding Resources in Models 5:17
 
+* Let's add another resource in addition to our Users
+* Posts - users can add posts
+* In a relational database, we would have 2 different tables, one for Users and one for Posts
+* In Mongo, we could still have a single collection of Users, and then have a list of Posts for each User
+* So Joe could have a Post property which has an object of all his posts inside it.
+* this is called **Nesting** - and one way Mongo is different from smoething like MySQL
+
 ----------------------------------
 
 ### 46. Nesting Posts on Users 5:40
+
+* **We will have User schema and a Post schema inside the User collection**
+* The Post schema whcih is being nested is considered a "subdocument".
+* A model is used to corresponf to a collection. A schema is used to describe how data is getting put into that collection.
+* Create new schema:
+
+```javascript
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const PostSchema = new Schema({
+  title: String
+});
+
+module.exports = PostSchema;
+```
+
+* Unlike the user.js file, we did not connect to a new model, because we use the same User model., already connected in the user.js
+
+* Now in user.js add:
+
+`const PostSchema = require('./post');`
+
+and under postCount a new property, which we can connect to PostSchema:
+
+`posts: [PostSchema]`
 
 ----------------------------------
 
