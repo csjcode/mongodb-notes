@@ -975,9 +975,57 @@ it('can remove an existing subdocument', (done) => {
 
 ### 50. Virtual Types 7:59
 
+* A virtual field is a field that we use on our server that does not actually get persisted into the database.
+* One odd thing we need to address - we have a separate field for postCount and Posts - we should fix that (why keep track of both?).
+* Create a new file virtual_type_test.js :
+
+```javascript
+const assert = require('assert');
+const User = require('../src/user');
+
+describe('Virtual types', () => {
+  it('postCount returns number of posts', (done) => {
+    const joe = new User({
+      name: 'Joe',
+      posts: [{ title: 'PostTitle' }]
+    });
+
+    joe.save()
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(joe.postCount === 1);
+        done();
+      });
+  });
+});
+```
+
+* This is just the test scaffolding - right now it is NOT passing.
+
+
 ----------------------------------
 
 ### 51. Defining a Virtual Type 6:19
+
+* When we do a virtual type, we do NOT need the property on the Schema -- we can remove it
+
+* Remove in user.js UserSchema
+`postCount: Number,`
+
+* Another problem-- removing this means we have to change our test in update_tes.js, where we had referred to it:
+
+`it('A user can have their postcount incremented by 1', (done) => {`
+
+* To make sure that ets is NOT run - we can change `it` to `xit`
+
+* We're going to add this code for the part that does not get saved, this names a method and starts a function to complete a task  - MAKE SURE to use the FUNCTION keyword, just remember when we call postCount it's like a function postCount():
+
+```javascript
+UserSchema.virtual('postCount').get(function() {
+});
+
+```
+
 
 ----------------------------------
 
