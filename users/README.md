@@ -758,6 +758,37 @@ assert(message === 'Name is required.');
 
 ### 43. Validation With a Validator Function 6:40
 
+* Add validator function, by adding another key to the Schema object.
+* We add 2 new keys (1) validator, (2) message
+
+
+```javascript
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    validate: {
+      validator: (name) => name.length > 2,
+      message: 'Name must be longer than 2 characters.'
+    },
+    required: [true, 'Name is required.']
+  },
+  postCount: Number
+});
+```
+
+* Now add a block to validation_test.js:
+
+```javascript
+it('requires a user\'s name longer than 2 characters', () => {
+  const user = new User({ name: 'Al' });
+  const validationResult = user.validateSync();
+  const { message } = validationResult.errors.name;
+
+  assert(message === 'Name must be longer than 2 characters.');
+});
+```
+
+
 ----------------------------------
 
 ### 44. Handling Failed Inserts 4:19
