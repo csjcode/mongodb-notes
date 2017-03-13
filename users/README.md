@@ -1080,13 +1080,46 @@ Result with `npm run test`
 
 * Pending is for the xit test (commented out)
 
-
-
-
-
 ----------------------------------
 
 ### 53. Fixing Update Tests
+
+* We have a pending test we need to Fixing
+* Add in another property "likes"
+* In user.js:
+
+```
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    validate: {
+      validator: (name) => name.length > 2,
+      message: 'Name must be longer than 2 characters.'
+    },
+    required: [true, 'Name is required.']
+  },
+  posts: [PostSchema],
+  likes: Number
+});
+```
+
+* Now in update_test.js
+```
+it('A user can have their likes incremented by 1', (done) => {
+  User.update({ name: 'Joe' }, { $inc: { likes: 10 } })
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user.likes === 10);
+      done();
+    });
+});
+```
+
+Run `npm run test`:
+
+```
+19 passing (377ms)
+```
 
 ----------------------------------
 
