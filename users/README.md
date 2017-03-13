@@ -1031,6 +1031,59 @@ UserSchema.virtual('postCount').get(function() {
 
 ### 52. ES6 Getters 8:16
 
+* In user.js:
+
+```javascript
+UserSchema.virtual('postCount').get(function() {
+  console.log('Hi!');
+});
+```
+
+* in users/ `node`
+* `const User = require('./src/user');`
+* `User` results in variable data in console
+* ` > joe = new User({});` results: `{ _id: 58c63ff0f4dfc31194da724f, posts: [] }`
+```javascript
+> joe.postCount
+Hi!
+undefined
+```
+
+* We can also reference this.posts instead of joe.posts. "this" refers to the instance of hte model we are working on.
+
+* What's going on: postcount is a virtual field and the function gets run with the console.log
+
+* user.js:
+
+`return this.posts.length;`
+
+* this returns the number of posts we have done
+* IMPORTANT: do not use a fat arrow function or that messes up the "this"
+
+* If you want to test from node console:  
+
+```javascript
+> joe = new User({posts:[{title:'new title test'}]})
+{ _id: 58c641d0f4dfc31194da7250,
+  posts: [ { title: 'new title test', _id: 58c641d0f4dfc31194da7251 } ] }
+
+> joe.postCount
+1
+```
+
+Result with `npm run test`
+
+```
+18 passing (341ms)
+1 pending
+```
+
+* Pending is for the xit test (commented out)
+
+
+
+
+
 ----------------------------------
 
 ### 53. Fixing Update Tests
