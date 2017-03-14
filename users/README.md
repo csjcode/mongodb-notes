@@ -1129,9 +1129,20 @@ Run `npm run test`:
 
 ### 54. Challenges of Nested Resources 5:27
 
+* We want to query all the posts of the blog by user - but only get a small finite number for each
+* This is tough for the nested document approach
+
 ----------------------------------
 
 ### 55. Embedded Documents vs Separate Collections 7:55
+
+* see 55-Changing-Schema-Handle-Comments.png
+* What if we need to track comments for each article - what si hte best schema?
+* See alternate schema with collections for User, Post, Comment
+* 55-Alternate-Schema.png
+* 55b-Alternate-Schema.png
+* Keep in mind there are no joins in MongoDB, so it's not same as RDBMS
+* Let's think about how to do a refactor to multiple collections
 
 ----------------------------------
 
