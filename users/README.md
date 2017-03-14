@@ -1148,6 +1148,22 @@ Run `npm run test`:
 
 ### 56. BlogPosts vs Posts 3:26
 
+* We're going to do an alternate schema with collections for User, Post, Comment
+* We're going to make a new collection for Blog Posts, but to keep distinct from out original call it blogPost
+* Create src/blogPost.js
+
+```javascript
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const BlogPostSchema = new Schema({
+  title: String,
+  content: String,
+});
+```
+
+* Create src/comments.js
+
 ----------------------------------
 
 ### 57. Creating Associations with Refs 8:53
