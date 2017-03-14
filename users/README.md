@@ -1204,7 +1204,62 @@ module.exports = Comment;
 
 ### 58. Test Setup for Associations 5:12
 
+* Open up User model in user.js
+* Add property of blogPosts with type and ref
 
+```javascript
+blogPosts: [{
+  type: Schema.Types.ObjectId,
+  ref: 'blogPost'
+}]
+```
+
+* So those are our file associations - now let;s run some tests
+
+* Create new file in test/association_test.js - this will be used to test associations
+
+```javascript
+const mongoose = require('mongoose');
+const User = require('./src/user');
+const Comment = require('./src/comment');
+const BlogPost = require('./src/blogPost');
+
+describe('Assocations', () => {
+
+});
+```
+
+* One GOTCHA - don;t forget in the beginning of this project we alaways initalize it by dropping the users collection.
+* NOW, we have to drop the new collections also.
+* This is done in test_helper.js - we can use ES6 to shorten it a bit
+
+```javascript
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+before((done) => {
+  mongoose.connect('mongodb://localhost/users_test');
+  mongoose.connection
+    .once('open', () => { done(); })
+    .on('error', (error) => {
+      console.warn('Warning', error);
+    });
+});
+
+beforeEach((done) => {
+  const { users, comments, blogPosts } = mongoose.connection.collections;
+  users.drop(() => {
+    comments.drop(() => {
+      blogPosts.drop(() => {
+        done();
+      });
+    });
+  });
+});
+```
+
+* We may refactor this, as it is a bit clunky
 
 ----------------------------------
 
