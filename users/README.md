@@ -1330,9 +1330,87 @@ beforeEach((done) => {
 
 ### 60. Promise.All for Parallel Operations 6:44
 
+* Current `npm run test`
+
+```
+{ _id: 58c7e9699fb35703aca97b43,
+  name: 'Joe',
+  __v: 0,
+  blogPosts: [ 58c7e9699fb35703aca97b44 ],
+  posts: [] }
+
+  1 passing (120ms)
+```
+
+* We need to deal with a query - view 60-Query.png
+* The old version of Mongoose used exec() -- you may see that -- newer version is with promises .then
+*
+
+
+
+Add in association_test.js:
+
+```javascript
+Promise.all([joe.save(), blogPost.save(), comment.save()])
+  .then(() => done());
+});
+
+it.only('saves a relation between a user and a blogpost', (done) => {
+User.findOne({ name: 'Joe' }).then()
+  .then((user) => {
+    console.log(user);
+    done();
+  });
+});
+```
+
+
+
 ----------------------------------
 
 ### 61. Populating Queries 11:06
+
+
+```
+const mongoose = require('mongoose');
+const assert = require('assert');
+const User = require('../src/user');
+const Comment = require('../src/comment');
+const BlogPost = require('../src/blogPost');
+
+describe('Assocations', () => {
+  let joe, blogPost, comment;
+
+  beforeEach((done) => {
+    joe = new User({ name: 'Joe' });
+    blogPost = new BlogPost({ title: 'JS is Great', content: 'Yep it really is' });
+    comment = new Comment({ content: 'Congrats on great post' });
+
+    joe.blogPosts.push(blogPost);
+    blogPost.comments.push(comment);
+    comment.user = joe;
+
+    Promise.all([joe.save(), blogPost.save(), comment.save()])
+      .then(() => done());
+  });
+
+  it('saves a relation between a user and a blogpost', (done) => {
+    User.findOne({ name: 'Joe' })
+      .populate('blogPosts')
+      .then((user) => {
+        assert(user.blogPosts[0].title === 'JS is Great');
+        done();
+      });
+  });
+});
+```
+
+* NOTE: We had to require assert to get all 21 tests
+
+```
+
+```
+
 
 ----------------------------------
 
