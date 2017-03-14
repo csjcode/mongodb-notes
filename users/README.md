@@ -1220,9 +1220,9 @@ blogPosts: [{
 
 ```javascript
 const mongoose = require('mongoose');
-const User = require('./src/user');
-const Comment = require('./src/comment');
-const BlogPost = require('./src/blogPost');
+const User = require('../src/user');
+const Comment = require('../src/comment');
+const BlogPost = require('../src/blogPost');
 
 describe('Assocations', () => {
 
@@ -1264,6 +1264,67 @@ beforeEach((done) => {
 ----------------------------------
 
 ### 59. Wiring Up Has Many and Has One Relations 8:40
+
+* You cannot drop multiple collections simultaneously in Mongoose
+* IMPORTANT: Mongo lowercases all collection names. So we made a mistake earlier!!!
+* change blogPost to blogpost.
+* Now we do the describe and beforeEach in association_test:
+```javascript
+beforeEach((done) => {
+  joe = new User({ name: 'Joe' });
+  blogPost = new BlogPost({ title: 'JS is Great', content: 'Yep it really is' });
+  comment = new Comment({ content: 'Congrats on great post' });
+});
+```
+* At this point this is not tied together with the model - ie. there is nothing tying the comment to a user.
+* We can associate it with a user with: `joe.blogPosts.push(blogPost);`
+* This looks a lot like document Nesting - this is what creates an association
+* We also create another association with comment: `blogPost.comments.push(comment);`
+
+* So more the full edit for this file:
+
+```javascript
+beforeEach((done) => {
+  joe = new User({ name: 'Joe' });
+  blogPost = new BlogPost({ title: 'JS is Great', content: 'Yep it really is' });
+  comment = new Comment({ content: 'Congrats on great post' });
+
+  joe.blogPosts.push(blogPost);
+  blogPost.comments.push(comment);
+  comment.user = joe;
+});
+```
+
+* NOTE: We have not saved anything yet.
+
+
+In test_helper.js:
+
+```javascript
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+before((done) => {
+  mongoose.connect('mongodb://localhost/users_test');
+  mongoose.connection
+    .once('open', () => { done(); })
+    .on('error', (error) => {
+      console.warn('Warning', error);
+    });
+});
+
+beforeEach((done) => {
+  const { users, comments, blogposts } = mongoose.connection.collections;
+  users.drop(() => {
+    comments.drop(() => {
+      blogposts.drop(() => {
+        done();
+      });
+    });
+  });
+});
+```
 
 ----------------------------------
 
