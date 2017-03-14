@@ -1162,15 +1162,49 @@ const BlogPostSchema = new Schema({
 });
 ```
 
-* Create src/comments.js
+* Create src/comment.js
 
 ----------------------------------
 
 ### 57. Creating Associations with Refs 8:53
 
+* We need to make some changes to blogPost.js to add the actual comment field
+
+```javascript
+comments: [{
+  type: Schema.Types.ObjectId,
+  ref: 'comment'
+}]
+```
+
+
+* A blog post has many comments associated with it.
+* So we pass an array
+* The type is Schema.Types.ObjectId because it comes from a diffferent collection
+* This a reference to another model - ref property points to collection name model definition (made in the comment.js file)
+* note: in comment.js it will be `const Comment = mongoose.model('comment', CommentSchema);`
+* Now, fill in comment.js Comment schema - we'll only have one user per comment so no array.
+
+```javascript
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const CommentSchema = new Schema({
+  content: String,
+  user: { type: Schema.Types.ObjectId, ref: 'user' }
+});
+
+const Comment = mongoose.model('comment', CommentSchema);
+
+module.exports = Comment;
+
+```
+
 ----------------------------------
 
 ### 58. Test Setup for Associations 5:12
+
+
 
 ----------------------------------
 
