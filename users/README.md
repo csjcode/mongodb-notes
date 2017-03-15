@@ -1546,6 +1546,41 @@ Handling Big Collections with Pagination
 * Limit only returns x amount of records. (after the skip)
 * This allows us to return a "window" of results
 
+```javascript
+it('can skip and limit the result set', (done) => {
+  User.find({})
+    .sort({ name: 1 })
+    .skip(1)
+    .limit(2)
+    .then((users) => {
+      assert(users.length === 2);
+      assert(users[0].name === 'Joe');
+      assert(users[1].name === 'Maria');
+      done();
+    });
+});
+```
+
+* Also pass the saves to teh Promise:
+
+```javascript
+let joe, maria, alex, zach;
+
+beforeEach((done) => {
+  alex = new User({ name: 'Alex' });
+  joe = new User({ name: 'Joe' });
+  maria = new User({ name: 'Maria' });
+  zach = new User({ name: 'Zach' });
+
+  Promise.all([joe.save(), alex.save(), maria.save(), zach.save()])
+    .then(() => done());
+});
+```
+
+Result:
+
+`22 passing (586ms)` 
+
 ----------------------------------
 
 ### 68. Writing Skip and Limit Queries 7:05
