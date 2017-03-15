@@ -1,5 +1,6 @@
 # Mongodb Class notes
 
+* Mongoose: http://mongoosejs.com/docs/
 * source class: https://www.udemy.com/the-complete-developers-guide-to-mongodb/learn/v4/t/lecture
 * extra code: https://github.com/StephenGrider/MongoCasts/
 
@@ -1416,6 +1417,36 @@ describe('Assocations', () => {
 
 ### 62. Loading Deeply Nested Associations 12:12
 
+* NOTE: Be careful the amount of assocaitions you make
+* We're going to load up the full associations of users, blogposts and comments.
+* notes on populate: http://mongoosejs.com/docs/populate.html
+
+```javascript
+User.findOne({ name: 'Joe' })
+  .populate({
+    path: 'blogPosts',
+    populate: {
+      path: 'comments',
+      model: 'comment',
+      populate: {
+        path: 'user',
+        model: 'user'
+      }
+    }
+  })
+  .then((user) => {
+```
+
+* User.findOne will find a user
+* path option means look into the that blogPosts object and load associations in there
+* Then the next populate says that inside that blogPosts object look for comments object for associatons.
+* Also for each we have to pass in the model
+* After that we have a promise .then to execute it
+
+Result: `21 passing (758ms)`
+
+* To see the performance toggle the it query with xit
+`xit('saves a full relation graph', (done) => {`
 
 ## Mongoose Middleware
 
