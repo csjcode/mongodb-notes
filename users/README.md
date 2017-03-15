@@ -1462,16 +1462,34 @@ Result: `21 passing (758ms)`
 * How does it work?
 * There are 2 types of Middleware - pre and post Event functions
 * So for example, we can have a remove Middlware - to remove all user content, then remove them
-* 
 
 
 ----------------------------------
 
 ### 64. Dealing with Cyclic Requires 5:07
 
+* Let's add middleware to run before the the remove event
+* Make sure ot use a keyword function, not fat arrow function.
+
+```javascript
+UserSchema.pre('remove', function() {
+  const BlogPost = mongoose.model('blogPost');
+  // this === joe
+
+```
+
 ----------------------------------
 
 ### 65. Pre-Remove Middleware 5:58
+
+
+
+
+
+
+
+
+
 
 ----------------------------------
 
