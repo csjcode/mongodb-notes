@@ -1497,3 +1497,231 @@ BlogPost.remove({ _id: { $in: this.blogPosts } })
 ----------------------------------
 
 ### 66. Testing Pre-Remove Middleware 5:46
+
+* create file: test\middleware_test.js
+
+```
+const mongoose = require('mongoose');
+const assert = require('assert');
+const User = require('../src/user');
+const BlogPost = require('../src/blogPost');
+
+describe('Middlware', () => {
+  let joe, blogPost;
+
+  beforeEach((done) => {
+    joe = new User({ name: 'Joe' });
+    blogPost = new BlogPost({ title: 'JS is Great', content: 'Yep it really is' });
+
+    joe.blogPosts.push(blogPost);
+
+    Promise.all([joe.save(), blogPost.save()])
+      .then(() => done());
+  });
+
+  it('users clean up dangling blogposts on remove', (done) => {
+    joe.remove()
+      .then(() => BlogPost.count())
+      .then((count) => {
+        assert(count === 0);
+        done();
+      });
+  });
+});
+```
+
+
+----------------------------------
+Handling Big Collections with Pagination
+
+
+
+
+
+----------------------------------
+
+### 67. Skip and Limit 4:30
+
+* Skip means we will skip x records before we start returning the result
+* Limit only returns x amount of records. (after the skip)
+* This allows us to return a "window" of results
+
+----------------------------------
+
+### 68. Writing Skip and Limit Queries 7:05
+
+* Paginations using skip and Limit
+*
+
+
+----------------------------------
+
+### 69. Sorting Collections 7:15
+
+
+
+----------------------------------
+
+
+
+## Section: 12 0 / 13
+### Putting Your Skills to the Test
+
+
+----------------------------------
+
+### 70. Project Setup 3:15
+
+
+----------------------------------
+
+### 71. Project Overview 5:46
+
+
+----------------------------------
+
+### 72. First Step - Artist and Album Models 4:29
+
+
+----------------------------------
+
+###73. The Album Schema 7:17
+
+
+
+----------------------------------
+
+### 74. The Artist Model 9:10
+
+
+----------------------------------
+
+### 75. Finding Particular Records 5:30
+
+
+
+----------------------------------
+
+### 76. FindOne vs FindById 6:29
+
+
+----------------------------------
+
+### 77. The CreateArtist Operation 2:48
+
+
+
+----------------------------------
+
+### 78. Solution to Creating Artists 3:11
+
+
+----------------------------------
+
+### 79. Deleting Singular Records 2:21
+
+
+
+----------------------------------
+
+### 80. Solution to Removing 4:20
+
+
+----------------------------------
+
+### 81. Editing Records 2:56
+
+
+----------------------------------
+
+### 82. How to Edit Single Artists 3:14
+
+
+----------------------------------
+
+###
+
+
+----------------------------------
+
+###
+
+
+----------------------------------
+
+###
+
+
+
+Section: 13 0 / 13
+Hard Mode Engage
+
+   83. Minimum and Maximum Values in a Collection 5:37
+   84. Solution to Min and Max Queries 14:58
+   85. Challenge Mode - Search Query 7:34
+   86. Sorting, Limiting, and Skipping Together 13:05
+   87. Danger! Big Challenge Ahead 4:30
+   88. Filtering By Single Properties 7:22
+   89. Filtering with Multiple Props 3:30
+   90. Handling Text Search 4:50
+   91. Indexes and Text Search 10:05
+   92. Batch Updates 5:28
+   93. The Hidden 'Multi' Setting 7:05
+   94. Seeding Many Records 6:31
+   95. Counting the Result Set 4:50
+
+   Section: 14 0 / 33
+MongoDB with Node and Express
+
+   96. App Overview 2:41
+   97. Designing API Routes 6:01
+   98. Project Setup 6:48
+   99. HTTP Request Methods 3:54
+   100. The Basics of Express 4:39
+   101. Express Boilerplate 4:30
+   102. Handling Requests with Express 8:12
+   103. Testing Express Apps with Mocha 7:21
+   104. Running Mocha 4:33
+   105. Project Structure 2:57
+   106. Refactoring for Controllers and Models 9:39
+   107. The Driver Model 6:51
+   108. The Create Drivers Route 3:47
+   109. The BodyParser Middleware 7:02
+   110. Testing Driver Creation 7:15
+   111. More on Testing Driver Creation 9:07
+   112. Additional Mongoose Setup 5:27
+   113. Driver Implementation 4:33
+   114. Testing Endpoints with Postman 9:14
+   115. Dev vs Test Environments 3:40
+   116. Separate Test Databases 10:33
+   117. Middlewares in Express 15:03
+   118. Handling Editing of Drivers 9:09
+   119. Testing Driver Updates 7:44
+   120. Handling Deletion of Drivers 3:05
+   121. Testing Driver Deletion 5:27
+   122. Geography with MongoDB 5:32
+   123. The GeoJSON Schema 5:41
+   124. GeoNear Queries 10:12
+   125. Testing a GeoNear Query 7:01
+   126. One Big Gotcha 4:49
+   127. Another Big Gotcha 2:56
+   128. Testing GeoQueries 3:39
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ----------------------------------
+
+   ###   
