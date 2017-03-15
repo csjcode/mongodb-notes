@@ -1482,12 +1482,15 @@ UserSchema.pre('remove', function() {
 
 ### 65. Pre-Remove Middleware 5:58
 
+* Now, we need to remove a list of ids
+* We'll use a mongo operator
 
+```javascript
+BlogPost.remove({ _id: { $in: this.blogPosts } })
+  .then(() => next());
+```
 
-
-
-
-
+* next() will get us to the next action
 
 
 
