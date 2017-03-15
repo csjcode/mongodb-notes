@@ -1452,7 +1452,18 @@ Result: `21 passing (758ms)`
 
 ----------------------------------
 
-### 63. Cleaning Up with Middleware 4:42
+### 63. Cleaning Up with Middleware 4:42 - pre/post-save hooks
+
+* One last topic related to associations
+* Example: Assume that if a User gets deleted we want to delete all their posts and comments.
+* How do we do this
+* We could delete all of that when a user is deleted
+* To do resource cleanup we are goint o use Middleware - or pre/post save hooks
+* How does it work?
+* There are 2 types of Middleware - pre and post Event functions
+* So for example, we can have a remove Middlware - to remove all user content, then remove them
+* 
+
 
 ----------------------------------
 
