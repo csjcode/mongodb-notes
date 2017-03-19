@@ -1546,6 +1546,14 @@ Handling Big Collections with Pagination
 * Limit only returns x amount of records. (after the skip)
 * This allows us to return a "window" of results
 
+
+----------------------------------
+
+### 68. Writing Skip and Limit Queries 7:05
+
+* Paginations using skip and Limit
+
+
 ```javascript
 it('can skip and limit the result set', (done) => {
   User.find({})
@@ -1579,21 +1587,13 @@ beforeEach((done) => {
 
 Result:
 
-`22 passing (586ms)` 
-
-----------------------------------
-
-### 68. Writing Skip and Limit Queries 7:05
-
-* Paginations using skip and Limit
-*
-
+`22 passing (586ms)`
 
 ----------------------------------
 
 ### 69. Sorting Collections 7:15
 
-
+(see previous)
 
 ----------------------------------
 
@@ -1606,6 +1606,9 @@ Result:
 ----------------------------------
 
 ### 70. Project Setup 3:15
+
+* We're going to take a pre-built application and fill in all the Mongo/Mongoose logic
+
 
 
 ----------------------------------
